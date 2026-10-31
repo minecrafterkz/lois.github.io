@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth scroll-pt-20">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детский клуб «Лойс» | Развитие, английский, подготовка к школе</title>
+    <meta name="description" content="Современный детский образовательный клуб. Раннее развитие, подготовка к школе, английский язык, шахматы и логопедия. Запишитесь на пробное занятие!">
+    
+    <link rel="stylesheet" href="assets/tailwind.css">
+    <style>
+        /* Базовые стили и кастомный скроллбар */
+                body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Скрытие секций для SPA-роутинга */
+        .page-section { display: none; }
+        .page-section.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+
+    <!-- Яндекс Метрика подключается скриптом ниже только после согласия на cookie -->
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- HEADER -->
+    <header class="fixed w-full top-0 z-50 glass-effect border-b border-slate-200 shadow-sm transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Логотип -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="navigate('home')">
+                    <svg class="h-8 w-8 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    <span class="ml-2 text-xl font-bold text-slate-900">Клуб <span class="text-brand">Лойс</span></span>
+                </div>
+
+                <!-- Десктопное меню -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#why-us" class="text-slate-600 hover:text-brand font-medium transition" onclick="navigate('home', 'why-us'); return false;">Почему мы?</a>
+                    <a href="#directions" class="text-slate-600 hover:text-brand font-medium transition" onclick="navigate('home', 'directions'); return false;">Направления</a>
+                    <a href="#prices" class="text-slate-600 hover:text-brand font-medium transition" onclick="navigate('home', 'prices'); return false;">Абонементы</a>
+                    <a href="#team" class="text-slate-600 hover:text-brand font-medium transition" onclick="navigate('home', 'team'); return false;">Педагоги</a>
+                    <a href="#contacts" class="text-slate-600 hover:text-brand font-medium transition" onclick="navigate('home', 'contacts'); return false;">Контакты</a>
+                </nav>
+
+                <!-- Телефон и Кнопка -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="tel:+79990000000" class="text-lg font-bold text-slate-900">+7 (999) 000-00-00</a>
+                    <a href="#lead-form" class="bg-brand hover:bg-brand-dark text-white px-5 py-2.5 rounded-full font-semibold shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5" onclick="navigate('home', 'lead-form'); return false;">
+                        Записаться
+                    </a>
+                </div>
+
+                <!-- Бургер кнопка (Мобильный) -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-brand focus:outline-none p-2">
+                        <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Мобильное меню -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 shadow-xl absolute w-full">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#why-us" class="block px-3 py-3 text-base font-medium text-slate-700 hover:bg-brand-light hover:text-brand rounded-lg" onclick="closeMobileMenu(); navigate('home', 'why-us'); return false;">Почему мы?</a>
+                <a href="#directions" class="block px-3 py-3 text-base font-medium text-slate-700 hover:bg-brand-light hover:text-brand rounded-lg" onclick="closeMobileMenu(); navigate('home', 'directions'); return false;">Направления</a>
+                <a href="#prices" class="block px-3 py-3 text-base font-medium text-slate-700 hover:bg-brand-light hover:text-brand rounded-lg" onclick="closeMobileMenu(); navigate('home', 'prices'); return false;">Абонементы</a>
+                <a href="#team" class="block px-3 py-3 text-base font-medium text-slate-700 hover:bg-brand-light hover:text-brand rounded-lg" onclick="closeMobileMenu(); navigate('home', 'team'); return false;">Педагоги</a>
+                <a href="#contacts" class="block px-3 py-3 text-base font-medium text-slate-700 hover:bg-brand-light hover:text-brand rounded-lg" onclick="closeMobileMenu(); navigate('home', 'contacts'); return false;">Контакты</a>
+                <a href="tel:+79990000000" class="block px-3 py-3 text-lg font-bold text-brand rounded-lg">+7 (999) 000-00-00</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= MAIN PAGE (LANDING) ================= -->
+    <main id="home" class="page-section active pt-20">
+        
+        <!-- 1. HERO SECTION & FORM -->
+        <section class="relative bg-white overflow-hidden">
+            <div class="absolute inset-y-0 right-0 w-1/2 bg-brand-light rounded-l-full opacity-50 transform translate-x-1/3"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative z-10">
+                <div class="lg:grid lg:grid-cols-12 lg:gap-16 items-center">
+                    
+                    <!-- Текст -->
+                    <div class="lg:col-span-7 mb-12 lg:mb-0 lg:-mt-16 lg:-ml-8 xl:-ml-12">
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-tight mb-6">
+                            Раскройте <span class="text-brand">потенциал</span> вашего ребенка вместе с нами
+                        </h1>
+                        <p class="text-lg sm:text-xl text-slate-600 mb-8 max-w-2xl leading-relaxed">
+                            Современный детский образовательный клуб. Раннее развитие, подготовка к школе, английский язык и многое другое в атмосфере любви и заботы.
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="flex items-center text-slate-700 font-medium bg-white px-4 py-2 rounded-lg shadow-sm border border-slate-100">
+                                <span class="text-accent text-xl mr-2">✓</span> Мини-группы до 6 детей
+                            </div>
+                            <div class="flex items-center text-slate-700 font-medium bg-white px-4 py-2 rounded-lg shadow-sm border border-slate-100">
+                                <span class="text-accent text-xl mr-2">✓</span> Педагоги с опытом от 5 лет
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Форма заявки -->
+                    <div class="lg:col-span-5" id="lead-form">
+                        <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-8 relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-accent opacity-10 rounded-bl-full"></div>
+                            
+                            <h3 class="text-2xl font-bold text-slate-900 mb-2">Записаться на пробное занятие</h3>
+                            <p class="text-slate-500 mb-6 text-sm">Оставьте заявку, и мы подберем идеальную программу для вашего ребенка.</p>
+                            
+                            <!-- Важно: форма без иностранных сервисов, отправка перехватывается JS -->
+                            <form id="main-application-form" class="space-y-4">
+                                <div>
+                                    <label for="parent_name" class="block text-sm font-medium text-slate-700 mb-1">Имя родителя *</label>
+                                    <input type="text" id="parent_name" name="parent_name" required class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand focus:border-brand transition outline-none" placeholder="Иван Иванов">
+                                </div>
+                                <div>
+                                    <label for="phone" class="block text-sm font-medium text-slate-700 mb-1">Номер телефона *</label>
+                                    <input type="tel" id="phone" name="phone" required class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand focus:border-brand transition outline-none" placeholder="+7 (___) ___-__-__">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                                    <input type="email" id="email" name="email" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand focus:border-brand transition outline-none" placeholder="example@mail.ru">
+                                </div>
+                                <div>
+                                    <label for="child_age" class="block text-sm font-medium text-slate-700 mb-1">Возраст ребенка *</label>
+                                    <select id="child_age" name="child_age" required class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand focus:border-brand transition outline-none bg-white">
+                                        <option value="">Выберите возраст...</option>
+                                        <option value="1-3">От 1 до 3 лет (Раннее развитие)</option>
+                                        <option value="4-5">4-5 лет</option>
+                                        <option value="5-7">5-7 лет (Подготовка к школе)</option>
+                                        <option value="7+">Старше 7 лет</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- ЮРИДИЧЕСКИЕ ЧЕКБОКСЫ -->
+                                <div class="space-y-3 pt-2">
+                                    <!-- Чекбокс 1: Обработка ПД (Обязательный, НЕ предзаполнен) -->
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input id="pd_agreement" name="pd_agreement" type="checkbox" required class="w-4 h-4 text-brand border-slate-300 rounded focus:ring-brand">
+                                        </div>
+                                        <label for="pd_agreement" class="ml-3 text-xs text-slate-500 leading-tight">
+                                            Я согласен(на) на обработку персональных данных в соответствии с <a href="consent.html" target="_blank" class="text-brand hover:underline font-medium">Согласием</a> и <a href="privacy.html" target="_blank" class="text-brand hover:underline font-medium">Политикой</a>. *
+                                        </label>
+                                    </div>
+                                    <!-- Чекбокс 2: Рекламная рассылка (Опциональный, НЕ предзаполнен) -->
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input id="promo_agreement" name="promo_agreement" type="checkbox" class="w-4 h-4 text-brand border-slate-300 rounded focus:ring-brand">
+                                        </div>
+                                        <label for="promo_agreement" class="ml-3 text-xs text-slate-500 leading-tight">
+                                            Я согласен(на) получать рекламные и информационные сообщения клуба по e-mail и телефону на условиях <a href="consent-mailing.html" target="_blank" class="text-brand hover:underline font-medium">Согласия на рассылку</a>.
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="w-full bg-accent hover:bg-accent-dark text-white font-bold py-3.5 px-4 rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5 mt-2">
+                                    Оставить заявку
+                                </button>
+                                <p class="text-[10px] text-slate-400 text-center mt-2">Ваши данные надежно защищены.</p>
+                            </form>
+                            
+                            <!-- Сообщение об успехе (скрыто) -->
+                            <div id="form-success" class="hidden absolute inset-0 bg-white flex-col items-center justify-center p-8 text-center">
+                                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4 text-green-500">
+                                    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <h4 class="text-2xl font-bold text-slate-900 mb-2">Заявка отправлена!</h4>
+                                <p class="text-slate-600 mb-6">Мы свяжемся с вами в течение 15 минут в рабочее время.</p>
+                                <button onclick="document.getElementById('form-success').classList.add('hidden');document.getElementById('form-success').classList.remove('flex'); document.getElementById('main-application-form').reset();" class="text-brand font-medium hover:underline">Отправить еще одну</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ПОЧЕМУ МЫ? -->
+        <section id="why-us" class="py-20 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-4">Почему родители доверяют нам?</h2>
+                    <p class="text-lg text-slate-600">Мы создали пространство, где ребенок учится с удовольствием, а родители спокойны за результат и безопасность.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Card 1 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                        <div class="w-14 h-14 bg-brand-light rounded-xl flex items-center justify-center text-brand mb-6">
+                            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Мини-группы</h3>
+                        <p class="text-slate-600">В группах до 6 человек. Педагог успевает уделить внимание каждому ребенку на 100%.</p>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                        <div class="w-14 h-14 bg-accent/10 rounded-xl flex items-center justify-center text-accent mb-6">
+                            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Современные методики</h3>
+                        <p class="text-slate-600">Объединяем классическую базу РФ, нейропсихологию и игровые механики для вовлечения.</p>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                        <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center text-green-600 mb-6">
+                            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Безопасная среда</h3>
+                        <p class="text-slate-600">Экологичные материалы, кварцевание, очистители воздуха и видеонаблюдение в зоне ожидания.</p>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                        <div class="w-14 h-14 bg-pink-100 rounded-xl flex items-center justify-center text-pink-500 mb-6">
+                            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">С любовью к детям</h3>
+                        <p class="text-slate-600">Наши педагоги не просто учат, они становятся старшими друзьями и наставниками.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. НАПРАВЛЕНИЯ -->
+        <section id="directions" class="py-20 bg-white border-t border-slate-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-4">Направления развития</h2>
+                    <div class="w-24 h-1 bg-brand mx-auto rounded-full"></div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Направление 1 -->
+                    <div class="group bg-slate-50 rounded-2xl overflow-hidden border border-slate-100 hover:shadow-xl transition duration-300">
+                        <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22600%22%20height%3D%22400%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23eef2ff%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%234f46e5%22%20font-family%3D%22Arial%22%20font-size%3D%2242%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3E%D0%A0%D0%B0%D0%BD%D0%BD%D0%B5%D0%B5%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D0%B5%3C/text%3E%3C/svg%3E" alt="Раннее развитие" class="w-full h-48 object-cover group-hover:scale-105 transition duration-500">
+                        <div class="p-6">
+                            <div class="text-xs font-bold text-brand tracking-wider uppercase mb-2">1 - 3 года</div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-3">Раннее развитие</h3>
+                            <p class="text-slate-600 mb-4">Комплексные занятия на развитие сенсорики, мелкой моторики, речи и музыкального слуха вместе с мамой.</p>
+                            <a href="#lead-form" class="text-brand font-semibold hover:text-brand-dark flex items-center">Записаться <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                    </div>
+                    <!-- Направление 2 -->
+                    <div class="group bg-slate-50 rounded-2xl overflow-hidden border border-slate-100 hover:shadow-xl transition duration-300">
+                        <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22600%22%20height%3D%22400%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23fffbeb%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%23d97706%22%20font-family%3D%22Arial%22%20font-size%3D%2242%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3E%D0%9F%D0%BE%D0%B4%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%BA%D0%B0%20%D0%BA%20%D1%88%D0%BA%D0%BE%D0%BB%D0%B5%3C/text%3E%3C/svg%3E" alt="Подготовка к школе" class="w-full h-48 object-cover group-hover:scale-105 transition duration-500">
+                        <div class="p-6">
+                            <div class="text-xs font-bold text-accent tracking-wider uppercase mb-2">5 - 7 лет</div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-3">Подготовка к школе</h3>
+                            <p class="text-slate-600 mb-4">Обучение чтению, письму, математике. Развитие логики, внимания и психологическая готовность к 1 классу.</p>
+                            <a href="#lead-form" class="text-brand font-semibold hover:text-brand-dark flex items-center">Записаться <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                    </div>
+                    <!-- Направление 3 -->
+                    <div class="group bg-slate-50 rounded-2xl overflow-hidden border border-slate-100 hover:shadow-xl transition duration-300">
+                        <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22600%22%20height%3D%22400%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23ecfdf5%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%23059669%22%20font-family%3D%22Arial%22%20font-size%3D%2242%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3E%D0%90%D0%BD%D0%B3%D0%BB%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D0%B9%20%D1%8F%D0%B7%D1%8B%D0%BA%3C/text%3E%3C/svg%3E" alt="Английский язык" class="w-full h-48 object-cover group-hover:scale-105 transition duration-500">
+                        <div class="p-6">
+                            <div class="text-xs font-bold text-green-600 tracking-wider uppercase mb-2">От 4 лет</div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-3">Английский язык</h3>
+                            <p class="text-slate-600 mb-4">Погружение в языковую среду через игры, песни и творчество. Постановка произношения без зубрежки.</p>
+                            <a href="#lead-form" class="text-brand font-semibold hover:text-brand-dark flex items-center">Записаться <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                    </div>
+                    <!-- Направление 4 -->
+                    <div class="group bg-slate-50 rounded-2xl overflow-hidden border border-slate-100 hover:shadow-xl transition duration-300">
+                        <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22600%22%20height%3D%22400%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23fdf2f8%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%23db2777%22%20font-family%3D%22Arial%22%20font-size%3D%2242%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3E%D0%9B%D0%BE%D0%B3%D0%BE%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F%3C/text%3E%3C/svg%3E" alt="Логопедия" class="w-full h-48 object-cover group-hover:scale-105 transition duration-500">
+                        <div class="p-6">
+                            <div class="text-xs font-bold text-pink-600 tracking-wider uppercase mb-2">Индивидуально</div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-3">Логопедия</h3>
+                            <p class="text-slate-600 mb-4">Коррекция звукопроизношения, развитие связной речи, логопедический массаж и запуск речи у малышей.</p>
+                            <a href="#lead-form" class="text-brand font-semibold hover:text-brand-dark flex items-center">Записаться <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                    </div>
+                    <!-- Направление 5 -->
+                    <div class="group bg-slate-50 rounded-2xl overflow-hidden border border-slate-100 hover:shadow-xl transition duration-300">
+                        <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22600%22%20height%3D%22400%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23f3f4f6%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%234b5563%22%20font-family%3D%22Arial%22%20font-size%3D%2242%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3E%D0%A8%D0%B0%D1%85%D0%BC%D0%B0%D1%82%D1%8B%3C/text%3E%3C/svg%3E" alt="Шахматы" class="w-full h-48 object-cover group-hover:scale-105 transition duration-500">
+                        <div class="p-6">
+                            <div class="text-xs font-bold text-slate-600 tracking-wider uppercase mb-2">От 5 лет</div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-3">Шахматный клуб</h3>
+                            <p class="text-slate-600 mb-4">Развитие стратегического мышления, памяти, усидчивости. Участие в клубных и городских турнирах.</p>
+                            <a href="#lead-form" class="text-brand font-semibold hover:text-brand-dark flex items-center">Записаться <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                    </div>
+                    <!-- CTA Блок -->
+                    <div class="bg-brand rounded-2xl overflow-hidden flex flex-col justify-center items-center text-center p-8 text-white shadow-lg">
+                        <h3 class="text-2xl font-bold mb-4">Не знаете, что выбрать?</h3>
+                        <p class="mb-6 opacity-90">Запишитесь на бесплатную диагностику от нашего методиста!</p>
+                        <a href="#lead-form" class="bg-white text-brand px-6 py-3 rounded-full font-bold hover:bg-slate-100 transition shadow">Пройти диагностику</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. АБОНЕМЕНТЫ (ЦЕНЫ) -->
+        <section id="prices" class="py-20 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-4">Стоимость занятий</h2>
+                    <p class="text-lg text-slate-600">Инвестируйте в успешное будущее вашего ребенка</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <!-- Разовое -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 flex flex-col hover:border-brand hover:shadow-lg transition">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Разовое занятие</h3>
+                        <div class="text-3xl font-extrabold text-slate-900 mb-6">1 200 ₽ <span class="text-base font-normal text-slate-500">/ занятие</span></div>
+                        <ul class="space-y-3 mb-8 flex-1">
+                            <li class="flex items-center text-slate-600"><svg class="w-5 h-5 text-brand mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Посещение любого направления</li>
+                            <li class="flex items-center text-slate-600"><svg class="w-5 h-5 text-brand mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Без привязки к расписанию</li>
+                            <li class="flex items-center text-slate-600"><svg class="w-5 h-5 text-brand mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Материалы включены</li>
+                        </ul>
+                        <a href="#lead-form" class="w-full block text-center bg-brand-light text-brand font-bold py-3 rounded-xl hover:bg-brand hover:text-white transition">Выбрать</a>
+                    </div>
+                    
+                    <!-- Абонемент 4 (Популярный) -->
+                    <div class="bg-brand rounded-2xl shadow-xl border-none p-8 flex flex-col transform md:-translate-y-4 relative">
+                        <div class="absolute top-0 right-0 bg-accent text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-2xl uppercase tracking-wide">Хит</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Абонемент на 4 занятия</h3>
+                        <div class="text-3xl font-extrabold text-white mb-6">4 000 ₽ <span class="text-base font-normal text-brand-light">/ мес</span></div>
+                        <ul class="space-y-3 mb-8 flex-1">
+                            <li class="flex items-center text-white"><svg class="w-5 h-5 text-accent mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 1 занятие в неделю</li>
+                            <li class="flex items-center text-white"><svg class="w-5 h-5 text-accent mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Закрепление места в группе</li>
+                            <li class="flex items-center text-white"><svg class="w-5 h-5 text-accent mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Чат с преподавателем</li>
+                            <li class="flex items-center text-white"><svg class="w-5 h-5 text-accent mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Заморозка по справке</li>
+                        </ul>
+                        <a href="#lead-form" class="w-full block text-center bg-accent hover:bg-accent-dark text-white font-bold py-3 rounded-xl transition shadow">Выбрать</a>
+                    </div>
+
+                    <!-- Абонемент 8 -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 flex flex-col hover:border-brand hover:shadow-lg transition">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Абонемент на 8 занятий</h3>
+                        <div class="text-3xl font-extrabold text-slate-900 mb-6">7 200 ₽ <span class="text-base font-normal text-slate-500">/ мес</span></div>
+                        <ul class="space-y-3 mb-8 flex-1">
+                            <li class="flex items-center text-slate-600"><svg class="w-5 h-5 text-brand mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 2 занятия в неделю</li>
+                            <li class="flex items-center text-slate-600"><svg class="w-5 h-5 text-brand mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Максимальный результат</li>
+                            <li class="flex items-center text-slate-600"><svg class="w-5 h-5 text-brand mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Скидка 10% на второго ребенка</li>
+                            <li class="flex items-center text-slate-600"><svg class="w-5 h-5 text-brand mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Заморозка по справке</li>
+                        </ul>
+                        <a href="#lead-form" class="w-full block text-center bg-brand-light text-brand font-bold py-3 rounded-xl hover:bg-brand hover:text-white transition">Выбрать</a>
+                    </div>
+                </div>
+
+                <!-- Юридическая оговорка (ОБЯЗАТЕЛЬНО) -->
+                <div class="mt-8 text-center text-sm text-slate-500 max-w-2xl mx-auto">
+                    * Указанные цены носят информационный характер. <br>
+                    <strong>Данное предложение не является публичной <a href="offer.html" class="text-brand hover:underline">офертой</a></strong>, определяемой положениями Статьи 437 (2) Гражданского кодекса РФ. Точную стоимость уточняйте у администратора.
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. ПРЕПОДАВАТЕЛИ -->
+        <section id="team" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-4">Наши педагоги</h2>
+                    <p class="text-lg text-slate-600">Профессионалы, которые искренне любят свое дело и детей</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Team 1 -->
+                    <div class="text-center">
+                        <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22400%22%20height%3D%22400%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23eef2ff%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%234f46e5%22%20font-family%3D%22Arial%22%20font-size%3D%2228%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3E%D0%90%D0%BD%D0%BD%D0%B0%3C/text%3E%3C/svg%3E" alt="Преподаватель" class="w-full aspect-square rounded-2xl mx-auto object-cover mb-4 border-4 border-white shadow-lg">
+                        <h3 class="text-xl font-bold text-slate-900">Анна Сергеевна</h3>
+                        <p class="text-brand font-medium text-sm mb-2">Методист, раннее развитие</p>
+                        <p class="text-slate-500 text-sm">Опыт работы 12 лет. Высшее педагогическое образование.</p>
+                    </div>
+                    <!-- Team 2 -->
+                    <div class="text-center">
+                        <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22400%22%20height%3D%22400%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23eef2ff%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%234f46e5%22%20font-family%3D%22Arial%22%20font-size%3D%2228%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3E%D0%9C%D0%B0%D1%80%D0%B8%D1%8F%3C/text%3E%3C/svg%3E" alt="Преподаватель" class="w-full aspect-square rounded-2xl mx-auto object-cover mb-4 border-4 border-white shadow-lg">
+                        <h3 class="text-xl font-bold text-slate-900">Мария Владимировна</h3>
+                        <p class="text-brand font-medium text-sm mb-2">Подготовка к школе</p>
+                        <p class="text-slate-500 text-sm">Учитель начальных классов высшей категории.</p>
+                    </div>
+                    <!-- Team 3 -->
+                    <div class="text-center">
+                        <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22400%22%20height%3D%22400%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23eef2ff%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%234f46e5%22%20font-family%3D%22Arial%22%20font-size%3D%2228%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3E%D0%95%D0%BB%D0%B5%D0%BD%D0%B0%3C/text%3E%3C/svg%3E" alt="Преподаватель" class="w-full aspect-square rounded-2xl mx-auto object-cover mb-4 border-4 border-white shadow-lg">
+                        <h3 class="text-xl font-bold text-slate-900">Елена Игоревна</h3>
+                        <p class="text-brand font-medium text-sm mb-2">Английский язык</p>
+                        <p class="text-slate-500 text-sm">Сертификаты TKT, CELTA. Уровень языка С1.</p>
+                    </div>
+                    <!-- Team 4 -->
+                    <div class="text-center">
+                        <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22400%22%20height%3D%22400%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23eef2ff%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%234f46e5%22%20font-family%3D%22Arial%22%20font-size%3D%2228%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3E%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB%3C/text%3E%3C/svg%3E" alt="Преподаватель" class="w-full aspect-square rounded-2xl mx-auto object-cover mb-4 border-4 border-white shadow-lg">
+                        <h3 class="text-xl font-bold text-slate-900">Михаил Андреевич</h3>
+                        <p class="text-brand font-medium text-sm mb-2">Логопед-дефектолог</p>
+                        <p class="text-slate-500 text-sm">Коррекция сложных речевых нарушений. Опыт 8 лет.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. КОНТАКТЫ -->
+        <section id="contacts" class="py-20 bg-slate-50 border-t border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="lg:grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-6">Ждем вас в гости!</h2>
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <svg class="w-6 h-6 text-brand mt-1 mr-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                <div>
+                                    <h4 class="text-lg font-bold text-slate-900">Адрес:</h4>
+                                    <p class="text-slate-600 text-lg">г. Москва, ул. Примерная, д. 12, оф. 3</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <svg class="w-6 h-6 text-brand mt-1 mr-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                                <div>
+                                    <h4 class="text-lg font-bold text-slate-900">Телефон:</h4>
+                                    <a href="tel:+79990000000" class="text-slate-600 text-lg hover:text-brand transition">+7 (999) 000-00-00</a>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <svg class="w-6 h-6 text-brand mt-1 mr-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <div>
+                                    <h4 class="text-lg font-bold text-slate-900">Время работы:</h4>
+                                    <p class="text-slate-600 text-lg">Пн-Вс: 09:00 - 20:00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Карта (Заглушка) -->
+                    <div class="mt-8 lg:mt-0 bg-slate-200 rounded-2xl h-80 w-full overflow-hidden flex items-center justify-center border border-slate-300 relative shadow-inner">
+                         
+                         <!-- Вместо изображения здесь в реальности будет код виджета Яндекс.Карт -->
+                         <div class="bg-white/90 p-4 rounded shadow-lg relative z-10 text-center text-sm font-medium text-slate-600 backdrop-blur-sm">
+                             * Здесь будет виджет Яндекс Карт *
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-slate-900 text-slate-400 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8 border-b border-slate-700 pb-8 mb-8">
+                <!-- О клубе -->
+                <div>
+                    <div class="text-xl font-bold text-white mb-4">Клуб <span class="text-brand">Лойс</span></div>
+                    <p class="text-sm">Современный образовательный клуб для гармоничного развития детей от 1 до 7 лет и старше.</p>
+                </div>
+                <!-- Документы -->
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase text-sm tracking-wider">Правовая информация</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="privacy.html" class="hover:text-brand-light transition">Политика обработки персональных данных</a></li>
+                        <li><a href="offer.html" class="hover:text-brand-light transition">Публичная оферта</a></li><li><a href="consent.html" class="hover:text-brand-light transition">Согласие на обработку ПД</a></li><li><a href="consent-mailing.html" class="hover:text-brand-light transition">Согласие на рассылку</a></li>
+                    </ul>
+                </div>
+                <!-- Реквизиты Плейсхолдеры -->
+                <div class="text-sm">
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider">Реквизиты</h4>
+                    <p>ИП [Фамилия Имя Отчество]</p>
+                    <p>ИНН: [000000000000]</p>
+                    <p>ОГРНИП: [000000000000000]</p>
+                    <p>Юр. адрес: [г. Город, ул. Улица, д. 0]</p>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row justify-between items-center text-xs">
+                <p>&copy; 2026 Детский клуб «Лойс». Все права защищены.</p>
+                <p class="mt-2 md:mt-0">Разработка: Студия [Ваше Название]</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= БАННЕР COOKIE ================= -->
+    <div id="cookie-banner" class="fixed bottom-4 left-4 right-4 md:right-auto md:max-w-sm bg-slate-900 text-slate-300 p-5 rounded-2xl shadow-2xl z-50 transform translate-y-0 transition-transform duration-500 border border-slate-700">
+        <p class="text-sm mb-4">
+            Продолжая пользоваться сайтом, вы соглашаетесь с 
+            <a href="privacy.html" class="text-brand hover:underline">Политикой обработки персональных данных</a> 
+            и использованием файлов cookie.
+        </p>
+        <div class="flex gap-2">
+            <button onclick="acceptCookies()" class="flex-1 bg-brand hover:bg-brand-dark text-white px-4 py-2 rounded-lg text-sm font-semibold transition">Хорошо, согласен</button>
+            <button onclick="declineCookies()" class="px-4 py-2 rounded-lg text-sm text-slate-400 hover:text-white transition">Отказаться</button>
+        </div>
+    </div>
+
+    <!-- ================= SCRIPTS ================= -->
+    <script>
+        // --- 1. SPA Роутинг (навигация внутри одного файла) ---
+        function navigate(pageId, targetId = null) {
+            const el = targetId ? document.getElementById(targetId) : null;
+            if (el) el.scrollIntoView({ behavior: 'smooth' }); else window.scrollTo(0, 0);
+        }
+
+        // --- 2. Мобильное меню ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        function closeMobileMenu() {
+            mobileMenu.classList.add('hidden');
+        }
+
+        // --- 3. Cookie и Яндекс Метрика (только после согласия) ---
+        const METRIKA_ID = 12345678;        // TODO: номер вашего счётчика
+        const LEAD_ENDPOINT = '/api/lead';  // TODO: адрес обработчика заявок на вашем сервере в РФ
+
+        function loadMetrika() {
+            if (window.__ymLoaded) return; window.__ymLoaded = true;
+            (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+            ym(METRIKA_ID, "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: false });
+        }
+        function getConsent() { try { return localStorage.getItem('cookieConsent'); } catch (e) { return null; } }
+        function setConsent(v) { try { localStorage.setItem('cookieConsent', v); } catch (e) {} }
+        function hideBanner() { const b = document.getElementById('cookie-banner'); if (b) b.remove(); }
+        function acceptCookies() { setConsent('yes'); hideBanner(); loadMetrika(); }
+        function declineCookies() { setConsent('no'); hideBanner(); }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const c = getConsent();
+            if (c === 'yes') { hideBanner(); loadMetrika(); } else if (c === 'no') { hideBanner(); }
+
+            const form = document.getElementById('main-application-form');
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                if (!document.getElementById('pd_agreement').checked) {
+                    alert('Необходимо согласие на обработку персональных данных.');
+                    return;
+                }
+                const data = Object.fromEntries(new FormData(form));
+                data.pd_agreement = true;
+                data.promo_agreement = document.getElementById('promo_agreement').checked;
+                data.consent_version = '2026-10-31';          // версия текста согласия
+                data.consent_time = new Date().toISOString();  // фиксируем факт и время согласия
+                data.page = location.href;
+                const btn = form.querySelector('button[type=submit]'); btn.disabled = true;
+                try {
+                    const r = await fetch(LEAD_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                    if (!r.ok) throw new Error('HTTP ' + r.status);
+                    const ok = document.getElementById('form-success');
+                    ok.classList.remove('hidden'); ok.classList.add('flex');
+                } catch (err) {
+                    alert('Не удалось отправить заявку. Позвоните нам: +7 (999) 000-00-00');
+                } finally { btn.disabled = false; }
+            });
+        });
+    </script>
+</body>
+</html>
